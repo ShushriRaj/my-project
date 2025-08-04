@@ -1,22 +1,136 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Balance</title>
-    <link rel="stylesheet" href="style2.css">
+    <title>Bank Interface</title>
+
+    <!-- CSS styles are embedded here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .bank-interface {
+            background-color: white;
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            gap: 1.5rem; /* Space between balance and buttons */
+            width: 90%;
+            max-width: 350px;
+            margin: 2rem auto;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        #balance {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2ecc71; /* Green color for balance */
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* Space between buttons */
+        }
+
+        .btn {
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .deposit {
+            background-color: #2ecc71; /* Green */
+        }
+
+        .withdraw {
+            background-color: #e74c3c; /* Red */
+        }
+
+        @media (max-width: 600px) {
+            .bank-interface {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            #balance {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1 class="balance">$0</h1>
-    </div>
-    <div>
-        <button class="deposit">Deposit</button>
-    </div>
-    <div>
-        <button class="withdraw">Withdraw</button>
+    <!-- HTML structure for the UI -->
+    <div class="bank-interface">
+        <div id="balance">$0</div>
+        <div class="btn-group">
+            <button class="btn deposit">Deposit</button>
+            <button class="btn withdraw">Withdraw</button>
+        </div>
     </div>
 
+    <!-- JavaScript logic is embedded here -->
+    <script>
+        // Select the balance element
+        const balanceElement = document.getElementById('balance');
+        // Initialize balance to match the visual
+        let balance = 0;
+
+        // Function to update the balance display
+        function updateBalanceDisplay() {
+            balanceElement.textContent = $${balance};
+        }
+
+        // Add event listener for the deposit button
+        document.querySelector('.deposit').addEventListener('click', () => {
+            const amount = parseFloat(prompt("Enter amount to deposit:"));
+
+            if (!isNaN(amount) && amount > 0) {
+                balance += amount;
+                updateBalanceDisplay();
+            } else if (amount !== null) { // Don't show alert if user cancels prompt
+                alert("Please enter a valid positive number.");
+            }
+        });
+
+        // Add event listener for the withdraw button
+        document.querySelector('.withdraw').addEventListener('click', () => {
+            const amount = parseFloat(prompt("Enter amount to withdraw:"));
+
+            if (isNaN(amount) || amount <= 0) {
+                if (amount !== null) {
+                    alert("Please enter a valid positive number.");
+                }
+            } else if (amount > balance) {
+                alert("Insufficient funds.");
+            } else {
+                balance -= amount;
+                updateBalanceDisplay();
+            }
+        });
+
+        // Set the initial balance on page load
+        updateBalanceDisplay();
+    </script>
+    
 </body>
 </html>
